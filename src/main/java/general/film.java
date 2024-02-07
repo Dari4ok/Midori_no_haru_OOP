@@ -11,12 +11,12 @@ import lombok.Setter;
 @Setter
 public class film {
     private int id;
-    private String name;
+    private String film_name;
     private String director;
 
     @Override
     public String toString() {
-        return id + ". " + name + "director: " + director;
+        return id + ". " + film_name + "director: " + director;
 
     }
 }
