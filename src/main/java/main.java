@@ -1,55 +1,48 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.Properties;
+import general.film;
+
+import java.sql.*;
+import java.util.ArrayList;
 
 public class main {
-
     public static void main(String[] args) {
-        // РАБОТА С БАЗОЙ ДАННЫХ POSTGRESQL ЧЕРЕЗ JDBC
+        String connectionString = "jdbc:postgresql://localhost:5432/simpledb";
+        ArrayList<film> users = new ArrayList<>();
+        Connection con = null;
         try {
-            // Адрес нашей базы данных "tsn_pg_demo" на локальном компьютере (localhost)
             Class.forName("org.postgresql.Driver");
-            String url = "jdbc:postgresql://localhost:5432/simpledb";
+            con = DriverManager.getConnection(connectionString, "postgres", "0000");
 
-            // Создание свойств соединения с базой данных
-            Properties authorization = new Properties();
-            authorization.put("user", "postgres"); // Зададим имя пользователя БД
-            authorization.put("password", "0000"); // Зададим пароль доступа в БД
+            String sql = "SELECT id, film_name, director, genres, my_list FROM users ORDER BY id;";
+            Statement stmt = con.createStatement();
 
-            // Создание соединения с базой данных
-            Connection connection = DriverManager.getConnection(url, authorization);
+            ResultSet rs = stmt.executeQuery(sql);
 
-            // Создание оператора доступа к базе данных
-            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String film_name = rs.getString("film_name");
+                String director = rs.getString("director");
+                String genre = rs.getString("genres");
+                String my_list = rs.getString("my_list");
 
-            // Выполнение запроса к базе данных, получение набора данных
-            ResultSet table = statement.executeQuery("SELECT * FROM users");
-
-            table.first(); // Выведем имена полей
-            for (int j = 1; j <= table.getMetaData().getColumnCount(); j++) {
-                System.out.print(table.getMetaData().getColumnName(j) + "\t\t");
+                film film = new film(id, film_name, director, genre, my_list);
+                users.add(film);
             }
-            System.out.println();
-
-            table.beforeFirst(); // Выведем записи таблицы
-            while (table.next()) {
-                for (int j = 1; j <= table.getMetaData().getColumnCount(); j++) {
-                    System.out.print(table.getString(j) + "\t\t");
+        } catch (SQLException e) {
+            System.out.println("connection error: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            System.out.println("driver error: " + e.getMessage());
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    System.out.println("could not close the connection: " + e.getMessage());
                 }
-                System.out.println();
             }
+        }
 
-            if (table != null) { table.close(); } // Закрытие набора данных
-            if (statement != null) { statement.close(); } // Закрытие базы данных
-            if (connection != null) { connection.close(); } // Отключение от базы данных
-
-        } catch (Exception e) {
-            System.err.println("Error accessing database!");
-            e.printStackTrace();
+        for (film film : users) {
+            System.out.println(film);
         }
     }
-
 }
