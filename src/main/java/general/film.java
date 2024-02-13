@@ -18,6 +18,6 @@ public class film {
 
     @Override
     public String toString() {
-        return id + ". " + "Film: " + film_name + " director: " + director;
+        return id + ". " + "Film: " + film_name + " Director: " + director + "Genre: " + genre + "Add smth: " + my_list;
     }
 }

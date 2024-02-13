@@ -40,9 +40,11 @@ public class main {
                 }
             }
         }
-
+        System.out.printf("%-5s | %-20s | %-20s | %-20s | %-20s\n", "ID", "Film Name", "Director", "Genres", "My List");
+        System.out.println("--------------------------------------------------------------------------------------------");
         for (film film : users) {
-            System.out.println(film);
+            System.out.printf("%-5d | %-20s | %-20s | %-20s | %-20s\n", film.getId(), film.getFilm_name(),
+                    film.getDirector(), film.getGenre(), film.getMy_list());
         }
     }
 }
