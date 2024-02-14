@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class film {
+public class Film {
     private int id;
     private String film_name;
     private String director;
@@ -18,6 +18,6 @@ public class film {
 
     @Override
     public String toString() {
-        return id + ". " + "Film: " + film_name + " Director: " + director + "Genre: " + genre + "Add smth: " + my_list;
+        return id + ". " + "Film: " + film_name + " Director: " + director + " Genre: " + genre + " History: " + my_list;
     }
 }
