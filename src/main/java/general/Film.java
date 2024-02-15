@@ -16,6 +16,9 @@ public class Film {
     private String genre;
     private String my_list;
 
+    public Film(String filmName, String director, String genres, String myList) {
+    }
+
     @Override
     public String toString() {
         return id + ". " + "Film: " + film_name + " Director: " + director + " Genre: " + genre + " History: " + my_list;
