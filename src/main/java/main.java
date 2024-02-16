@@ -23,13 +23,16 @@ public class main {
         boolean exit = false;
 
         // This is infinite while loop for console (CRUD)
-        System.out.println("Welcome user! \n Please select an option from menu:");
+        System.out.println("******************************************************");
+        System.out.println("Welcome user! \n -------------------------------------" +
+                " \nPlease select an option from menu:");
         while (true) {
-            System.out.println("1. View all films");
-            System.out.println("2. Add film");
-            System.out.println("3. Delete film");
-            System.out.println("4. Setting new id");
-            System.out.println("0. Exit");
+            System.out.println("\n1. View all films");
+            System.out.println("\n2. Add film");
+            System.out.println("\n3. Delete film");
+            System.out.println("\n4. Setting new id");
+            System.out.println("\n0. Exit");
+            System.out.println("******************************************************");
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
 

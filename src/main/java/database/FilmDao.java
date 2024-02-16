@@ -7,6 +7,7 @@ import general.Film;
 
     public class FilmDao {
 
+        //Connectin to db
         private Connection connection;
 
         public FilmDao(String connectionString, String username, String password) {
@@ -17,6 +18,7 @@ import general.Film;
             }
         }
 
+        // Output all list from database
         public List<Film> getAllFilms() {
             List<Film> users = new ArrayList<>();
             String sql = "SELECT id, film_name, director, genres, my_list FROM users ORDER BY id";
@@ -37,6 +39,7 @@ import general.Film;
             return users;
         }
 
+        // This code add new film
         public void addFilm(Film film) {
             String query = "INSERT INTO users (film_name, director, genres, my_list) VALUES (?, ?, ?, ?)";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -50,6 +53,7 @@ import general.Film;
             }
         }
 
+        // this deleting film from the table
         public void deleteFilm(int filmId) {
             String query = "DELETE FROM users WHERE id = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -60,6 +64,7 @@ import general.Film;
             }
         }
 
+        //This code for deleting by ID (now only for deleteFilm())
         public Film getFilmById(int filmId) {
             Film film = null;
             String query = "SELECT * FROM users WHERE id = ?";
@@ -81,7 +86,7 @@ import general.Film;
             return film;
         }
 
-        // Assume you have the following method in your FilmDao class to reset the sequence
+        // This is for setting new ID
         public void resetSequence(String sequenceName, int restartValue) {
             String query = "ALTER SEQUENCE " + sequenceName + " RESTART WITH " + restartValue;
             try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/simpledb",
@@ -94,12 +99,13 @@ import general.Film;
             }
         }
 
+        // Exciting from the program
         public static void exitProgram() {
             System.out.println("Exiting the program. Goodbye!");
             // Any cleanup or closing of resources can be done here
             System.exit(0);
         }
 
-
+        // Need update function
         // Other methods for adding, updating, and deleting films can be added here
     }
