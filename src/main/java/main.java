@@ -1,12 +1,12 @@
-import database.FilmDao;
-import general.Film;
+import repositories.FilmDao;
+import models.Film;
 
 import java.sql.Connection;
 import java.util.List;
 import java.util.Scanner;
 
-import static database.FilmDao.exitProgram;
-import static general.DisplayFilms.displayFilms;
+import static repositories.FilmDao.exitProgram;
+import static console.DisplayFilms.displayFilms;
 
 public class main {
     public static void main(String[] args) {

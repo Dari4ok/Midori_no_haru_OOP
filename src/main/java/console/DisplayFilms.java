@@ -1,4 +1,6 @@
-package general;
+package console;
+
+import models.Film;
 
 import java.util.List;
 
