@@ -3,27 +3,38 @@ package repositories;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import models.Film;
 
+
+@AllArgsConstructor
+@NoArgsConstructor
     public class FilmDao {
 
-        //Connectin to db
-        private Connection connection;
+    //Connection to db
+    private Connection connection;
 
-        public FilmDao(String connectionString, String username, String password) {
-            try {
-                connection = DriverManager.getConnection(connectionString, username, password);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+    public FilmDao(String connectionString, String username, String password) {
+        try{
+            this.connection = DriverManager.getConnection(connectionString, username, password);
+        }catch (SQLException e){
+            e.printStackTrace();
         }
+    }
+
 
         // Output all list from database
         public List<Film> getAllFilms() {
             List<Film> users = new ArrayList<>();
+
             String sql = "SELECT id, film_name, director, genres, my_list FROM users ORDER BY id";
-            try (Statement statement = connection.createStatement();
-                 ResultSet resultSet = statement.executeQuery(sql)) {
+
+            try{
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(sql);
+
                 while (resultSet.next()) {
                     int id = resultSet.getInt("id");
                     String filmName = resultSet.getString("film_name");
@@ -33,6 +44,7 @@ import models.Film;
                     Film user = new Film(id, filmName, director, genres, myList);
                     users.add(user);
                 }
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }

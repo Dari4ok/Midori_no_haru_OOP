@@ -1,7 +1,9 @@
+import data.PostgreDB;
 import repositories.FilmDao;
 import models.Film;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,7 +13,7 @@ import static console.DisplayFilms.displayFilms;
 public class main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Connection connection = null;
+        PostgreDB postgreDB = new PostgreDB();
 
         // Username and password, connection to database
         String connectionString = "jdbc:postgresql://localhost:5432/simpledb";
@@ -20,9 +22,18 @@ public class main {
 
         FilmDao filmDao = new FilmDao (connectionString, username, password);
 
-        boolean exit = false;
+        Connection connection = null;
+
+        try {
+            postgreDB.getConnection();
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
 
         // This is infinite while loop for console (CRUD)
+        boolean exit = false;
+
         System.out.println("******************************************************");
         System.out.println("Welcome user! \n -------------------------------------" +
                 " \nPlease select an option from menu:");
