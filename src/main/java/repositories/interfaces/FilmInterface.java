@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface FilmInterface {
     List<Film> getAllFilms();
-    void addFilm(Film film);
+    Film addFilm(Film film);
     void deleteFilm(int filmid);
     Film getFilmById(int filmid);
     void resetSequence(String sequenceName, int restartValue);
