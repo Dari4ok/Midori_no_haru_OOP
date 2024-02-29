@@ -4,26 +4,22 @@ import console.DisplayFilms;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import models.Film;
-import repositories.FilmDao;
 import repositories.interfaces.FilmInterface;
-
 import java.sql.Connection;
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 public class FilmController {
-    private FilmDao filmDao;
     private FilmInterface repo;
 
     Connection connection;
 
-    public FilmController(FilmDao filmDao){
-        this.repo = (FilmInterface) filmDao;
+    public FilmController(FilmInterface filmInterface){
+        this.repo = (FilmInterface) filmInterface;
     }
 
     public String getAllFilms(){
-
         List<Film> users =  repo.getAllFilms();
         return DisplayFilms.displayFilms(users);
     }
@@ -35,16 +31,12 @@ public class FilmController {
     }
 
     public String deleteFilm(int filmId) {
-        Film film;
         repo.deleteFilm(filmId);
         return ("Film deleted!");
     }
 
-    public void resetSequence(String sequenceName, int restartValue) {
-        repo.resetSequence(sequenceName, restartValue);
-    }
-
-    public static void exitProgram() {
-        System.exit(0);
+    public int getFilmCount() {
+        List<Film> films = repo.getAllFilms();
+        return films.size();
     }
 }

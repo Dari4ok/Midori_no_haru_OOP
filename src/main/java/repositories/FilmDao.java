@@ -3,9 +3,7 @@ package repositories;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import data.Interface.DBConnection;
-import data.PostgreDB;
+import Manage.Interfaces.Model;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import models.Film;
@@ -79,7 +77,10 @@ public class FilmDao implements FilmInterface{
     }
 
     //This code for deleting by ID (now only for deleteFilm())
-    public Film getFilmById(int filmId) {
+
+    public Film
+
+    getFilmById(int filmId) {
         Film film = null;
         String query = "SELECT * FROM users WHERE id = ?";
 
@@ -101,27 +102,36 @@ public class FilmDao implements FilmInterface{
             return film;
         }
 
-        // This is for setting new ID
-        public void resetSequence(String sequenceName, int restartValue) {
-            String query = "ALTER SEQUENCE " + sequenceName + " RESTART WITH " + restartValue;
+    @Override
+    public boolean updateStatus(int id, String newStatus) {
+        return false;
+    }
 
-            try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/simpledb",
-                    "postgres", "0000");
-                 Statement statement = connection.createStatement()) {
-                statement.execute(query);
-                System.out.println("Sequence " + sequenceName + " reset to start with " + restartValue);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+    @Override
+    public Model get(int id) {
+        return null;
+    }
 
-        // Exciting from the program
-        public void exitProgram() {
-            //System.out.println("Exiting the program. Goodbye!");
+    @Override
+    public boolean insert(Model model) {
+        return false;
+    }
 
-            System.exit(0);
-        }
+    @Override
+    public boolean updateStatus(Model model) {
+        return false;
+    }
 
-        // Need update function
-        // Other methods for adding, updating, and deleting films can be added here
+    @Override
+    public boolean delete(int id) {
+        return false;
+    }
+
+    @Override
+    public int getFilmCount() {
+        List<Film> films = getAllFilms();
+        return films.size();
+    }
+
+    // Other methods for adding, updating, and deleting films can be added here
 }

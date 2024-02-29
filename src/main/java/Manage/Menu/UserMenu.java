@@ -1,62 +1,55 @@
+package Manage.Menu;
+
 import controller.FilmController;
 import models.Film;
+import repositories.interfaces.FilmInterface;
 
+import java.util.List;
 import java.util.Scanner;
 
-public class MyApplication {
-    private final FilmController controller;
-    private final Scanner scanner;
-
-    public MyApplication(FilmController controller) {
-        this.controller = controller;
-        this.scanner = new Scanner(System.in);
-    }
-
-    public void start() {
+public class UserMenu {
+    FilmController controller;
+    public void launchMenu(FilmInterface filmInterface) {
+        Scanner scanner = new Scanner(System.in);
         boolean exit = false;
-
-        System.out.println("******************************************************");
-        System.out.println("""
-                Welcome user!\s
-                 -------------------------------------\s
-                Please select an option from menu:""");
         while (!exit) {
-            System.out.println("\n1. View all films");
-            System.out.println("\n2. Add film");
-            System.out.println("\n3. Delete film");
-            System.out.println("\n4. Update status");
-            System.out.println("\n0. Exit");
-            System.out.println("******************************************************");
-            System.out.print("Enter your choice: ");
+            System.out.println("Client Menu:");
+            System.out.println("1. View all films");
+            System.out.println("2. Add film");
+            System.out.println("3. Update Status");
+            System.out.println("4. Sign out.");
             int choice = scanner.nextInt();
-
             switch (choice) {
                 case 1:
-                    System.out.println(controller.getAllFilms());
+                    showAllFilms(filmInterface);
                     break;
                 case 2:
-                    addFilm();
+                    addFilm(filmInterface, scanner);
                     break;
                 case 3:
-                    deleteFilm();
+                    updateFilmStatus(filmInterface, scanner);
                     break;
                 case 4:
-                    updateFilmStatus();
-                    break;
-                case 0:
-                    exitProgram();
                     exit = true;
-                    System.out.println("Goodbye!");
                     break;
                 default:
-                    System.out.println("Incorrect choice!");
+                    System.out.println("Invalid choice.");
             }
         }
     }
 
-    private void addFilm() {
-        scanner.nextLine(); // Consume the newline character
+    private void showAllFilms(FilmInterface filmInterface) {
+        List<Film> films = filmInterface.getAllFilms();
+        System.out.println("Films: ");
+        for (Film film: films) {
+            System.out.println(((Film) film).toString());
+        }
+        System.out.println();
+    }
 
+    private void addFilm(FilmInterface filmInterface,Scanner scanner) {
+        System.out.println("Adding a new film!");
+        System.out.print("Enter film name:");
         String filmName;
         do {
             System.out.print("Enter film name: ");
@@ -66,19 +59,16 @@ public class MyApplication {
                 System.out.println("Film name cannot be empty. Please try again.");
             }
         } while (filmName.isEmpty());
-
-        System.out.print("Enter director: ");
+        System.out.println("Enter director:");
         String director = scanner.nextLine();
-
         System.out.print("Enter genres: ");
         String genres = scanner.nextLine();
-
         System.out.println("Status: ");
         System.out.println("1. Completed");
         System.out.println("2. Plan to Watch");
         System.out.println("3. On Hold");
         int myListStatus = scanner.nextInt();
-        scanner.nextLine(); // Consume the newline character
+        scanner.nextLine();
 
         String myList = "";
         switch (myListStatus) {
@@ -95,22 +85,11 @@ public class MyApplication {
                 System.out.println("Invalid status. Defaulting to Plan to Watch.");
                 myList = "Plan to Watch";
         }
-        Film film = new Film(0,filmName, director, genres, myList);
-        controller.addFilm(film);
+        Film newfilm = new Film(0,filmName, director, genres, myList);
+        controller.addFilm(newfilm);
     }
 
-    private void deleteFilm() {
-        System.out.print("Enter the ID of the film you want to delete: ");
-        int filmIdToDelete = scanner.nextInt();
-
-        System.out.println(controller.deleteFilm(filmIdToDelete));
-    }
-
-    private void exitProgram() {
-        System.exit(0);
-    }
-
-    private void updateFilmStatus() {
+    private void updateFilmStatus(FilmInterface filmInterface, Scanner scanner) {
         System.out.println("Updating film status!");
         System.out.println("Enter the ID of the film you want to update status for:");
         int id = scanner.nextInt();
@@ -137,11 +116,12 @@ public class MyApplication {
             default:
                 System.out.println("Invalid status. No changes will be made.");
                 return;
-        }if (filmDao.updateStatus(id, newStatus)) {
+        }
+        if (filmInterface.updateStatus(id, newStatus)) {
             System.out.println("Film status updated successfully!");
         } else {
             System.out.println("Failed to update film status.");
         }
-
     }
 }
+
