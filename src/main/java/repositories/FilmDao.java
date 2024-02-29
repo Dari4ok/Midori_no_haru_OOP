@@ -3,7 +3,6 @@ package repositories;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import Manage.Interfaces.Model;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import models.Film;
@@ -26,7 +25,7 @@ public class FilmDao implements FilmInterface{
 
     public List<Film> getAllFilms() {
         List<Film> users = new ArrayList<>();
-        String sql = "SELECT id, film_name, director, genres, my_list FROM users ORDER BY id";
+        String sql = "SELECT * FROM filmtable ORDER BY id";
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
@@ -48,7 +47,7 @@ public class FilmDao implements FilmInterface{
     // This code add new film
     @Override
     public Film addFilm(Film film) {
-        String query = "INSERT INTO users (film_name, director, genres, my_list) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO filmtable (film_name, director, genres, my_list) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, film.getFilm_name());
@@ -63,10 +62,9 @@ public class FilmDao implements FilmInterface{
         return film;
     }
 
-
     // this deleting film from the table
     public void deleteFilm(int filmId) {
-        String query = "DELETE FROM users WHERE id = ?";
+        String query = "DELETE FROM filmtable WHERE id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, filmId);
@@ -76,62 +74,19 @@ public class FilmDao implements FilmInterface{
         }
     }
 
-    //This code for deleting by ID (now only for deleteFilm())
-
-    public Film
-
-    getFilmById(int filmId) {
-        Film film = null;
-        String query = "SELECT * FROM users WHERE id = ?";
-
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/simpledb",
-                "postgres", "0000");
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                preparedStatement.setInt(1, filmId);
-                ResultSet resultSet = preparedStatement.executeQuery();
-                if (resultSet.next()) {
-                    film = new Film(resultSet.getInt("id"),
-                            resultSet.getString("film_name"),
-                            resultSet.getString("director"),
-                            resultSet.getString("genres"),
-                            resultSet.getString("my_list"));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return film;
-        }
-
     @Override
     public boolean updateStatus(int id, String newStatus) {
         return false;
     }
 
     @Override
-    public Model get(int id) {
-        return null;
-    }
-
-    @Override
-    public boolean insert(Model model) {
-        return false;
-    }
-
-    @Override
-    public boolean updateStatus(Model model) {
-        return false;
+    public int getFilmCount() {
+        return 0;
     }
 
     @Override
     public boolean delete(int id) {
         return false;
     }
-
-    @Override
-    public int getFilmCount() {
-        List<Film> films = getAllFilms();
-        return films.size();
-    }
-
-    // Other methods for adding, updating, and deleting films can be added here
+        // Other methods for adding, updating, and deleting films can be added here
 }

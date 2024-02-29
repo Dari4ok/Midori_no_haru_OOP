@@ -1,7 +1,7 @@
 package Authorization;
 
 import Manage.Menu.AdminMenu;
-import Manage.Menu.UserMenu;
+import Manage.Menu.ClientMenu;
 import Manage.Role;
 import Manage.User;
 import data.PostgreDB;
@@ -27,7 +27,7 @@ public class AuthManager {
                 if (user.getRole() == Role.Admin.getId()) {
                     new AdminMenu().launchMenu(filmDao);
                 } else {
-                    new UserMenu().launchMenu(filmDao);
+                    new ClientMenu().launchMenu(filmDao);
                 }
             } else {
                 System.out.println("Incorrect username or password!");
@@ -68,7 +68,7 @@ public class AuthManager {
             if (user.getRole() == Role.Admin.getId()) {
                 new AdminMenu().launchMenu(filmDao);
             } else {
-                new UserMenu().launchMenu(filmDao);
+                new ClientMenu().launchMenu(filmDao);
             }
         }
     }
@@ -79,15 +79,17 @@ public class AuthManager {
              PreparedStatement ps = con.prepareStatement(query)) {
             ps.setString(1, username);
             ps.setString(2, password);
-            ResultSet res = ps.executeQuery();
-            if (res.next()) {
-                user = new User(
-                        res.getInt("id"),
-                        res.getString("username"),
-                        res.getString("password"),
-                        Role.fromID(res.getInt("role"))
-                );
-                return true;
+            try (ResultSet res = ps.executeQuery()){
+
+                if (res.next()) {
+                    user = new User(
+                            res.getInt("id"),
+                            res.getString("username"),
+                            res.getString("password"),
+                            Role.fromID(res.getInt("role"))
+                    );
+                    return true;
+                }
             }
             return false;
         } catch (SQLException e) {
@@ -102,7 +104,7 @@ public class AuthManager {
              PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());
-            ps.setInt(3, user.getRole());//.getId();
+            ps.setInt(3, user.getRole());
             int rowsAffected = ps.executeUpdate();
             if (rowsAffected > 0) {
                 try (ResultSet generatedKeys = ps.getGeneratedKeys()) {

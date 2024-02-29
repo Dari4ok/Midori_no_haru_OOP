@@ -1,0 +1,24 @@
+import Authorization.AuthManager;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+
+        System.out.println("Welcome!");
+        System.out.println("Choose your option");
+        System.out.println("1. Sign in.");
+        System.out.println("2. Sign up.");
+        System.out.println("Enter number:");
+
+        Scanner scanner = new Scanner(System.in);
+        int choice = scanner.nextInt();
+        switch (choice) {
+            case 1:
+                AuthManager.signIn(scanner);
+                break;
+            case 2:
+                AuthManager.signUp(scanner);
+                break;
+        }
+    }
+}

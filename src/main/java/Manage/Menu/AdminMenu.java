@@ -1,4 +1,5 @@
 package Manage.Menu;
+
 import Manage.Interfaces.Menu;
 import controller.FilmController;
 import models.Film;
@@ -24,7 +25,7 @@ public class AdminMenu implements Menu {
                     showAllFilms(filmInterface);
                     break;
                 case 2:
-                    addFilm(filmInterface, scanner);
+                    addFilm(scanner);
                     break;
                 case 3:
                     updateFilmStatus(filmInterface, scanner);
@@ -53,7 +54,7 @@ public class AdminMenu implements Menu {
         System.out.println();
     }
 
-    private void addFilm(FilmInterface filmInterface,Scanner scanner) {
+    private void addFilm(Scanner scanner) {
         System.out.println("Adding a new film!");
         System.out.print("Enter film name:");
         String filmName;
@@ -129,7 +130,6 @@ public class AdminMenu implements Menu {
             System.out.println("Failed to update film status.");
         }
     }
-
 
     private void deleteFilm(FilmInterface filmInterface, Scanner scanner) {
         List<Film> films = filmInterface.getAllFilms();

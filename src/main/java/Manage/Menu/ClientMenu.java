@@ -7,7 +7,7 @@ import repositories.interfaces.FilmInterface;
 import java.util.List;
 import java.util.Scanner;
 
-public class UserMenu {
+public class ClientMenu {
     FilmController controller;
     public void launchMenu(FilmInterface filmInterface) {
         Scanner scanner = new Scanner(System.in);

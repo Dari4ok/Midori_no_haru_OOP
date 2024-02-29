@@ -1,5 +1,6 @@
 package models;
 
+import Manage.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,9 +16,6 @@ public class Film {
     private String director;
     private String genre;
     private String my_list;
-
-    public Film(String filmName, String director, String genres, String myList) {
-    }
 
     @Override
     public String toString() {

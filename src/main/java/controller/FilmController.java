@@ -4,7 +4,9 @@ import console.DisplayFilms;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import models.Film;
+import repositories.FilmDao;
 import repositories.interfaces.FilmInterface;
+
 import java.sql.Connection;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public class FilmController {
     Connection connection;
 
     public FilmController(FilmInterface filmInterface){
-        this.repo = (FilmInterface) filmInterface;
+        this.repo = filmInterface;
     }
 
     public String getAllFilms(){
@@ -31,12 +33,12 @@ public class FilmController {
     }
 
     public String deleteFilm(int filmId) {
+        Film film;
         repo.deleteFilm(filmId);
         return ("Film deleted!");
     }
 
-    public int getFilmCount() {
-        List<Film> films = repo.getAllFilms();
-        return films.size();
+    public boolean updateStatus(int id, String newStatus) {
+        return false;
     }
 }
