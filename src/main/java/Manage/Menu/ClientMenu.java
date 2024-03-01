@@ -79,7 +79,7 @@ public class ClientMenu {
                 myList = "Plan to Watch";
                 break;
             case 3:
-                myList = "On Hold";
+                myList = "On Hоld";
                 break;
             default:
                 System.out.println("Invalid status. Defaulting to Plan to Watch.");
