@@ -32,12 +32,8 @@ public class FilmController {
     }
 
     public String deleteFilm(int filmId) {
-        Film film;
+
         repo.deleteFilm(filmId);
         return ("Film deleted!");
-    }
-
-    public boolean updateStatus(int id, String newStatus) {
-        return false;
     }
 }

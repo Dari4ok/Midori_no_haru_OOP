@@ -147,8 +147,10 @@ public class AdminMenu implements Menu {
         System.out.println("Enter the ID of the film you want to delete:");
         int id = scanner.nextInt();
 
+
+
         if(filmInterface.delete(id)) {
-            System.out.println("Successfully deleted!");
+            System.out.println(controller.deleteFilm(id));
         } else {
             throw new RuntimeException("Error deleted!");
         }
