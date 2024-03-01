@@ -28,7 +28,7 @@ public class FilmController {
     public String addFilm(Film film) {
         film = repo.addFilm(film);
 
-        return (film == null ? "Error!" : "Film added!" );
+        return (film == null ? "Errоr!" : "Film added!" );
     }
 
     public String deleteFilm(int filmId) {
