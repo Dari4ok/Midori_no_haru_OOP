@@ -24,7 +24,7 @@ public class FilmDao implements FilmInterface{
     }
 
     public List<Film> getAllFilms() {
-        List<Film> users = new ArrayList<>();
+        List<Film> filmtable = new ArrayList<>();
         String sql = "SELECT * FROM filmtable ORDER BY id";
         try {
             Statement statement = connection.createStatement();
@@ -36,12 +36,12 @@ public class FilmDao implements FilmInterface{
                 String genres = resultSet.getString("genres");
                 String myList = resultSet.getString("my_list");
                 Film film = new Film(id, filmName, director, genres, myList);
-                users.add(film);
+                filmtable.add(film);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return users;
+        return filmtable;
     }
 
     // This code add new film

@@ -16,7 +16,7 @@ public class User implements Model {
     private String password;
     private int role = Role.User.getId();
 
-    public User(int id, String username, String password, Role role) {
+    public User(int id, String username, String password, Role role_id) {
     }
 
 }

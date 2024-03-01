@@ -1,6 +1,7 @@
 package Manage.Menu;
 
 import Manage.Interfaces.Menu;
+import console.DisplayFilms;
 import controller.FilmController;
 import models.Film;
 import repositories.interfaces.FilmInterface;
@@ -8,7 +9,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public class AdminMenu implements Menu {
-    FilmController controller;
+    private FilmController controller;
+
+    public AdminMenu(FilmController filmController) {
+    }
+
     public void launchMenu(FilmInterface filmInterface) {
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
@@ -22,7 +27,7 @@ public class AdminMenu implements Menu {
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
-                    showAllFilms(filmInterface);
+                    showAllFilms(filmInterface, controller);
                     break;
                 case 2:
                     addFilm(scanner);
@@ -45,12 +50,13 @@ public class AdminMenu implements Menu {
         }
     }
 
-    private void showAllFilms(FilmInterface filmInterface) {
+    private void showAllFilms(FilmInterface filmInterface, FilmController controller) {
         List<Film> films = filmInterface.getAllFilms();
         System.out.println("Films: ");
         for (Film film: films) {
-            System.out.println(((Film) film).toString());
+            System.out.println((film).toString());
         }
+        controller.getAllFilms();
         System.out.println();
     }
 
@@ -154,6 +160,6 @@ public class AdminMenu implements Menu {
     }
 
     @Override
-    public void launchMenu(FilmInterface filmInterface, int userId, Object manager) {
+    public void launchMenu() {
     }
 }

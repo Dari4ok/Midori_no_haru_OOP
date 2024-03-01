@@ -4,6 +4,7 @@ import Manage.Menu.AdminMenu;
 import Manage.Menu.ClientMenu;
 import Manage.Role;
 import Manage.User;
+import controller.FilmController;
 import data.PostgreDB;
 import repositories.FilmDao;
 import java.sql.*;
@@ -25,7 +26,7 @@ public class AuthManager {
                 System.out.println("Successfully authorized!");
                 exit = true;
                 if (user.getRole() == Role.Admin.getId()) {
-                    new AdminMenu().launchMenu(filmDao);
+                    new AdminMenu(new FilmController()).launchMenu(filmDao);
                 } else {
                     new ClientMenu().launchMenu(filmDao);
                 }
@@ -44,7 +45,7 @@ public class AuthManager {
         }
     }
 
-    public static void signUp(Scanner scanner) {
+    public static void signUp(Scanner scanner, Connection connection, FilmController filmController) {
         User newUser = new User();
         System.out.print("Enter username: ");
         newUser.setUsername(scanner.next());
@@ -62,11 +63,12 @@ public class AuthManager {
             System.out.println("Invalid choice! You're assigned as a user.");
             newUser.setRole(Role.User.getId());
         }
-        FilmDao filmDao = new FilmDao();
+        FilmDao filmDao = new FilmDao(connection);
         if (saveToDB(newUser)) {
             System.out.println("Successfully registered!");
+            new AdminMenu(filmController).launchMenu();
             if (user.getRole() == Role.Admin.getId()) {
-                new AdminMenu().launchMenu(filmDao);
+                new AdminMenu(filmController).launchMenu(filmDao);
             } else {
                 new ClientMenu().launchMenu(filmDao);
             }

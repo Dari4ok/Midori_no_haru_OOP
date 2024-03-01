@@ -4,7 +4,6 @@ import console.DisplayFilms;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import models.Film;
-import repositories.FilmDao;
 import repositories.interfaces.FilmInterface;
 
 import java.sql.Connection;
@@ -22,8 +21,8 @@ public class FilmController {
     }
 
     public String getAllFilms(){
-        List<Film> users =  repo.getAllFilms();
-        return DisplayFilms.displayFilms(users);
+        List<Film> filmtable =  repo.getAllFilms();
+        return DisplayFilms.displayFilms(filmtable);
     }
 
     public String addFilm(Film film) {
